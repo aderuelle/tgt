@@ -9,6 +9,12 @@ PREFIX ?= /usr
 # Export VERSION and PREFIX so sub-make knows about them
 export VERSION PREFIX
 
+# Export include and lib path
+export LIBLONGHORN_PREFIX
+
+# Export target host sysroot path
+export TARGET_SYSROOT
+
 # Export the feature switches so sub-make knows about them
 export ISCSI_RDMA
 export CEPH_RBD
