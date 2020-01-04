@@ -68,6 +68,10 @@ TGTD_DEP = $(TGTD_OBJS:.o=.d)
 
 LDFLAGS = -Wl,-E,-rpath=$(libdir)
 
+ifneq ($(TARGET_SYSROOT),)
+LDFLAGS_SHARED = --sysroot=$(TARGET_SYSROOT)
+endif
+
 .PHONY:all
 all: $(PROGRAMS) $(MODULES)
 
@@ -101,10 +105,10 @@ tgtimg: $(TGTIMG_OBJS)
 	$(CC) -shared $(CFLAGS) $*.c -o $*.so
 
 bs_rbd.so: bs_rbd.c
-	$(CC) -shared $(CFLAGS) bs_rbd.c -o bs_rbd.so -lrados -lrbd
+	$(CC) $(LDFLAGS_SHARED) -shared $(CFLAGS) bs_rbd.c -o bs_rbd.so -lrados -lrbd
 
 bs_glfs.so: bs_glfs.c
-	$(CC) -I/usr/include/glusterfs/api -shared $(CFLAGS) bs_glfs.c -o bs_glfs.so -lgfapi
+	$(CC) $(LDFLAGS_SHARED) -shared $(CFLAGS) -o bs_glfs.so -lgfapi
 
 .PHONY: install
 install: $(PROGRAMS) $(MODULES)
