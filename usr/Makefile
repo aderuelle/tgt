@@ -1,11 +1,13 @@
 sbindir ?= $(PREFIX)/sbin
 libdir ?= $(PREFIX)/lib/tgt
 
-ifneq ($(shell test -e /usr/include/linux/signalfd.h && echo 1),)
+SYSTEM_HEADERS = $(TARGET_SYSROOT)/usr/include
+
+ifneq ($(shell test -e $(SYSTEM_HEADERS)/linux/signalfd.h && echo 1),)
 CFLAGS += -DUSE_SIGNALFD
 endif
 
-ifneq ($(shell test -n $(shell find /usr/include -name "timerfd.h" | head -n1) && echo 1),)
+ifneq ($(shell test -n $(shell find $(SYSTEM_HEADERS) -name "timerfd.h" | head -n1) && echo 1),)
 CFLAGS += -DUSE_TIMERFD
 endif
 
@@ -25,7 +27,7 @@ ifneq ($(SD_NOTIFY),)
 CFLAGS += -DUSE_SYSTEMD
 endif
 
-ifneq ($(shell test -e /usr/include/libaio.h && echo 1),)
+ifneq ($(shell test -e $(SYSTEM_HEADERS)/libaio.h && echo 1),)
 CFLAGS += -DUSE_EVENTFD
 TGTD_OBJS += bs_aio.o
 LIBS += -laio
