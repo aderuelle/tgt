@@ -3,6 +3,8 @@ libdir ?= $(PREFIX)/lib/tgt
 
 SYSTEM_HEADERS = $(TARGET_SYSROOT)/usr/include
 
+LIBLONGHORN_PREFIX ?= $(TARGET_SYSROOT)/usr
+
 ifneq ($(shell test -e $(SYSTEM_HEADERS)/linux/signalfd.h && echo 1),)
 CFLAGS += -DUSE_SIGNALFD
 endif
@@ -39,6 +41,7 @@ LIBS += -libverbs -lrdmacm
 endif
 
 INCLUDES += -I.
+INCLUDES += -I$(LIBLONGHORN_PREFIX)/include
 
 CFLAGS += -D_GNU_SOURCE
 CFLAGS += $(INCLUDES)
@@ -67,6 +70,7 @@ TGTD_OBJS += tgtd.o mgmt.o target.o scsi.o log.o driver.o util.o work.o \
 TGTD_DEP = $(TGTD_OBJS:.o=.d)
 
 LDFLAGS = -Wl,-E,-rpath=$(libdir)
+LDFLAGS += -L$(LIBLONGHORN_PREFIX)/lib
 
 ifneq ($(TARGET_SYSROOT),)
 LDFLAGS_SHARED = --sysroot=$(TARGET_SYSROOT)
