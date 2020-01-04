@@ -21,7 +21,7 @@ XMLHTML = htmlpages/tgtd.8.html htmlpages/tgtadm.8.html \
 all: xmlman xmlhtml
 
 .PHONY: install
-install: $(MANPAGES) $(DOCS)
+install: $(MANPAGES) $(XMLHTML) $(DOCS)
 	install -d -m 755 $(DESTDIR)$(mandir)/man8 $(DESTDIR)$(mandir)/man5
 	install -m 644 $(filter %.8,$(MANPAGES)) $(DESTDIR)$(mandir)/man8
 	install -m 644 $(filter %.5,$(MANPAGES)) $(DESTDIR)$(mandir)/man5
