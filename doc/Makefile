@@ -33,7 +33,7 @@ install: $(MANPAGES) $(XMLHTML) $(DOCS)
 .PHONY: clean
 clean:
 	rm -f $(XMLMAN) $(XMLHTML)
-	-rm -f manpages htmlpages
+	-rm -rf manpages htmlpages
 
 manpages/tgtd.8: tgtd.8.xml
 	-test -z "$(XSLTPROC)" || $(XSLTPROC) -o $@ http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
